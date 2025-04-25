@@ -21,29 +21,42 @@ def scan_misconfiguration(domain):
 
     vulnerable = False
     report = []
+    checked_urls = set()  # Set to track URLs we've already checked to avoid duplicates
 
     # Check each misconfiguration pattern
     for keyword, description in misconfigurations:
+        # Avoid checking the same URL multiple times
         full_query = f"site:{domain} inurl:{keyword}"
+        if full_query in checked_urls:
+            continue  # Skip this query if already checked
+        checked_urls.add(full_query)
+        
         try:
             response = requests.get(f"http://{domain}/{keyword}", timeout=5)
             if response.status_code == 200:
                 print(colored(f"[!] Misconfiguration detected: {description} at {domain}/{keyword}", "red"))
                 report.append(f"[ALTA] {domain}/{keyword} — {description}")
                 vulnerable = True
-        except requests.exceptions.RequestException as e:
+        except requests.exceptions.RequestException:
+            # Skip any errors caused by invalid requests (e.g., timeout, connection error)
             continue
 
         # Checking for headers like X-Powered-By or Server
-        if "X-Powered-By" in response.headers:
-            print(colored(f"[!] Misconfiguration detected: Exposed technology {response.headers['X-Powered-By']} at {domain}", "red"))
-            report.append(f"[ALTA] {domain} — Exposed technology: {response.headers['X-Powered-By']}")
-            vulnerable = True
+        if response.status_code == 200:
+            headers = response.headers
+            if "X-Powered-By" in headers:
+                header_value = headers["X-Powered-By"]
+                if f"Exposed technology: {header_value}" not in [entry for entry in report]:
+                    print(colored(f"[!] Misconfiguration detected: Exposed technology {header_value} at {domain}", "red"))
+                    report.append(f"[ALTA] {domain} — Exposed technology: {header_value}")
+                    vulnerable = True
 
-        if "Server" in response.headers:
-            print(colored(f"[!] Misconfiguration detected: Server information exposed {response.headers['Server']} at {domain}", "red"))
-            report.append(f"[ALTA] {domain} — Exposed Server: {response.headers['Server']}")
-            vulnerable = True
+            if "Server" in headers:
+                header_value = headers["Server"]
+                if f"Exposed Server: {header_value}" not in [entry for entry in report]:
+                    print(colored(f"[!] Misconfiguration detected: Server information exposed {header_value} at {domain}", "red"))
+                    report.append(f"[ALTA] {domain} — Exposed Server: {header_value}")
+                    vulnerable = True
 
     # Saving the report if vulnerabilities are found
     if vulnerable:
