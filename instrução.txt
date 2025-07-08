@@ -1,0 +1,42 @@
+faça tudo isso mais alguma coisa, me surpreenda, faça o melhor update que poderes. acho que vc não entendeu, o main.py é uma ferramneta que funciona como interface gráfica de muitas ferramentas que estão dentro do modules, ela só precisa importar elas, cada uma delas tem a sua lógica no seu código.  
+observe: ┌──(myenv)─(kali㉿kali)-[~/Templates/sentinela_primeiro]
+└─$ ls
+assets  main.py  modules  musica_hacker.mp3  __pycache__  relatorios  sentinela_primeiro.log
+                                                                                                                                                    
+┌──(myenv)─(kali㉿kali)-[~/Templates/sentinela_primeiro]
+└─$ modules
+                                                                                                                                                    
+┌──(myenv)─(kali㉿kali)-[~/Templates/sentinela_primeiro/modules]
+└─$ ls
+bruteforce.py         dork_tool.py  misconfiguration.py  __pycache__        sfps.py            userlist.txt
+command_injection.py  __init__.py   passlist.txt         sensitive_data.py  traversal_tool.py  xss_tool.py
+
+nesse momento tudo deves fazer actualização praticamentte só na inteface, mas a lógica mantém, as actualizações são estas, não elimine a parte da música, e deve ter um botão de parar e reproduziir a música.
+eis aqui as acttualizações:
+
+✅ Tela Splash com música, barra de progresso e logo.
+
+✅ Alternância de modo Dark/Light via botão.
+
+
+✅ Dashboard dinâmico atualizando conforme vulnerabilidades encontradas.
+
+✅ Estilo gráfico bonito, animações nos botões e interação responsiva.
+
+✅ Alternância de modo Dark/Light via botão.
+
+✅ Importação real de todos os módulos.
+
+✅ Dashboard dinâmico atualizando conforme vulnerabilidades encontradas.
+
+✅ Scan real usando seus módulos
+
+✅ Pergunta no final se quer relatório HTML ou PDF.
+
+✅ Geração de relatório bonito baseado na escolha.
+
+✅ Estilo gráfico bonito, animações nos botões e interação responsiva.
+
+✅ Importação de TODOS os seus módulos (xss_tool, dork_tool, command_injection, sensitive_data, misconfiguration, sfps, excepto bruteforce) corretamente.
+
+✅ Gráfico do Dashboard Dinâmico: conforme o scan detecta vulnerabilidades, ele vai atualizando ao vivo!

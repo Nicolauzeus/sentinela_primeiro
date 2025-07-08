@@ -1,0 +1,56 @@
+ ### Passo 1: Criando um ambiente virtual para a aplicação
+1. **Instale dependências**:
+   - Instale `python3`, `PyQt6`, e outras dependências necessárias com o comando:
+     ```bash
+     pip install pyqt6 pyqtgraph
+     ```
+
+2. **Organize os arquivos da ferramenta**:
+   - Coloque o código Python e todos os módulos (como o `xss_tool.py`, `dork_tool.py`, etc.) em uma pasta. Vamos assumir que a pasta é chamada `sentinela_primeiro/`.
+
+### Passo 2: Instalando o `AppImageTool`
+1. **Baixe o AppImageTool**:
+   - Você pode baixar o AppImageTool do [repositório oficial no GitHub](https://github.com/AppImage/AppImageKit/releases) ou instalar via `apt`:
+     ```bash
+     sudo apt install appimagetool
+     ```
+
+### Passo 3: Criando o AppImage
+1. **Crie o diretório para o AppImage**:
+   - Dentro da pasta do projeto (`sentinela_primeiro/`), crie um diretório chamado `AppDir`.
+     ```bash
+     mkdir AppDir
+     ```
+
+2. **Copie os arquivos para o `AppDir`**:
+   - Copie o seu código Python e todos os módulos necessários para a pasta `AppDir`. Exemplo:
+     ```bash
+     cp -r sentinela_primeiro/* AppDir/
+     ```
+
+3. **Crie um arquivo `.desktop`**:
+   - Dentro do diretório `AppDir`, crie o arquivo `sentinela_primeiro.desktop` com o seguinte conteúdo:
+     ```ini
+     [Desktop Entry]
+     Name=Sentinela Primeiro - Bug Hunter
+     Comment=Ferramenta de caça a bugs com interface aprimorada
+     Exec=python3 /path/to/sentinela_primeiro/main.py
+     Icon=path/to/icon.png
+     Terminal=false
+     Type=Application
+     ```
+
+4. **Crie o ícone**:
+   - Coloque um ícone (geralmente no formato `.png`) na pasta `AppDir` e se refira a ele no arquivo `.desktop`.
+
+5. **Crie o AppImage**:
+   - Execute o seguinte comando dentro da pasta do projeto:
+     ```bash
+     appimagetool AppDir
+     ```
+
+   Isso criará um arquivo `.AppImage` no diretório atual, que você pode executar diretamente.
+
+---
+
+Caso você precise de mais detalhes ou ajustes específicos no processo, estou à disposição para continuar te ajudando!
